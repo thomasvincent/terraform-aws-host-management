@@ -1,9 +1,12 @@
 # terraform-aws-host-management
 
-Terraform module for provisioning and managing AWS EC2 Dedicated Hosts.
+OpenTofu module for provisioning and managing AWS EC2 Dedicated Hosts.
 
-[![Terraform CI](https://github.com/thomasvincent/terraform-aws-host-management/actions/workflows/terraform-ci.yml/badge.svg)](https://github.com/thomasvincent/terraform-aws-host-management/actions/workflows/terraform-ci.yml)
+[![OpenTofu CI](https://github.com/thomasvincent/terraform-aws-host-management/actions/workflows/terraform-ci.yml/badge.svg)](https://github.com/thomasvincent/terraform-aws-host-management/actions/workflows/terraform-ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![OpenTofu](https://img.shields.io/badge/OpenTofu-%3E%3D1.6.0-blue)](https://opentofu.org/)
+
+> **Note**: This module has been migrated from Terraform to [OpenTofu](https://opentofu.org/), the open-source fork of Terraform. OpenTofu is a drop-in replacement and is fully compatible with existing Terraform configurations.
 
 ## Features
 
@@ -78,7 +81,7 @@ module "dedicated_hosts" {
 
 | Name | Version |
 |------|---------|
-| terraform | >= 1.5.0 |
+| opentofu | >= 1.6.0 |
 | aws | >= 5.0.0 |
 
 ## Providers

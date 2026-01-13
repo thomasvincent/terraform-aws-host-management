@@ -1,4 +1,4 @@
-name: Terraform CI
+name: OpenTofu CI
 on:
   pull_request:
   push:
@@ -9,18 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: hashicorp/setup-terraform@v3
+      - uses: opentofu/setup-opentofu@v1
         with:
-          terraform_version: 1.7.5
-      - name: Terraform fmt (recursive)
-        run: terraform fmt -check -recursive
-      - name: Terraform validate (all modules)
+          tofu_version: 1.8.0
+      - name: OpenTofu fmt (recursive)
+        run: tofu fmt -check -recursive
+      - name: OpenTofu validate (all modules)
         shell: bash
         run: |
           set -euo pipefail
           find . -type f -name '*.tf' -printf '%h\n' | sort -u | while read -r d; do
             echo "Validating $d"
-            (cd "$d" && terraform init -backend=false -input=false -no-color && terraform validate -no-color)
+            (cd "$d" && tofu init -backend=false -input=false -no-color && tofu validate -no-color)
           done
       - name: Setup TFLint
         uses: terraform-linters/setup-tflint@v6
