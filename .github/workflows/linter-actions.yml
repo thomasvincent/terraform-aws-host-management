@@ -21,6 +21,10 @@ on:
   pull_request:
     branches: [master, main]
 
+permissions:
+  contents: read
+  statuses: write
+
 ###############
 # Set the Job #
 ###############
@@ -39,7 +43,7 @@ jobs:
       # Checkout the code base #
       ##########################
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           # Full git history is needed to get a proper list of changed files within `super-linter`
           fetch-depth: 0
@@ -48,7 +52,7 @@ jobs:
       # Run Linter against code base #
       ################################
       - name: Lint Code Base
-        uses: github/super-linter@v4
+        uses: github/super-linter@b92721f792f381cedc002ecdbb9847a15ece5bb8 # v4
         env:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main

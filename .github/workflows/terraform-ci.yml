@@ -4,12 +4,15 @@ on:
   push:
     branches: [ main, master ]
 
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: opentofu/setup-opentofu@v1
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: opentofu/setup-opentofu@b1a4633db1eb1b90ca6399e707c171382122f944 # v1
         with:
           tofu_version: 1.8.0
       - name: OpenTofu fmt (recursive)
@@ -23,12 +26,12 @@ jobs:
             (cd "$d" && tofu init -backend=false -input=false -no-color && tofu validate -no-color)
           done
       - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v6
+        uses: terraform-linters/setup-tflint@9d3f896e46e2cf7f21550f162ef8cc8823d164f2 # v4
         with:
           tflint_version: v0.54.0
       - name: Run TFLint
         run: tflint --recursive
       - name: Run tfsec
-        uses: aquasecurity/tfsec-action@v1.0.6
+        uses: aquasecurity/tfsec-action@6b56e8e1093b5d6db98f99f10e4d7a6bb9f5d0cd # v1.0.6
         with:
-          soft_fail: true
+          soft_fail: false
