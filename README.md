@@ -8,16 +8,83 @@ OpenTofu module for provisioning and managing AWS EC2 Dedicated Hosts.
 
 > **Note**: This module has been migrated from Terraform to [OpenTofu](https://opentofu.org/), the open-source fork of Terraform. OpenTofu is a drop-in replacement and is fully compatible with existing Terraform configurations.
 
-## Features
+## Architecture
 
-- Provision multiple AWS EC2 Dedicated Hosts
-- Support for instance type or instance family allocation
-- Configurable auto-placement and host recovery
-- AWS Outpost support
-- Comprehensive tagging with validation
-- Input validation for all variables
+Provisions multiple AWS EC2 Dedicated Hosts with configurable instance types, auto-placement, and host recovery. Supports AWS Outposts for hybrid deployments and comprehensive tagging with validation.
 
-## Usage
+## Prerequisites
+
+- OpenTofu >= 1.6.0 (or Terraform >= 1.0.0)
+- AWS Provider >= 5.0.0
+- Valid AWS credentials configured
+- Appropriate IAM permissions for EC2 Dedicated Hosts
+
+## Quick Start
+
+```bash
+# Initialize
+terraform init
+
+# Review planned changes
+terraform plan
+
+# Apply configuration
+terraform apply
+```
+
+## Module Structure
+
+- `main.tf` - Dedicated host resource definitions
+- `variables.tf` - Input variables with validation rules
+- `outputs.tf` - Output value definitions
+- `versions.tf` - Provider version constraints
+- `examples/basic/` - Basic usage example
+
+## Variables
+
+See [variables.tf](./variables.tf) for complete variable documentation including validation rules.
+
+Key variables:
+- `host_count` - Number of dedicated hosts (0-100)
+- `availability_zone` - Target AWS availability zone
+- `instance_type` - EC2 instance type (mutually exclusive with instance_family)
+- `instance_family` - EC2 instance family (mutually exclusive with instance_type)
+- `auto_placement` - Enable auto-placement (on/off)
+- `host_recovery` - Enable host recovery (on/off)
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| dedicated_host_ids | The IDs of the AWS Dedicated Hosts |
+| dedicated_host_arns | The ARNs of the AWS Dedicated Hosts |
+| dedicated_host_availability_zones | The availability zones of the Dedicated Hosts |
+| dedicated_host_owner_ids | The AWS account IDs of the Dedicated Host owners |
+| host_count | The number of dedicated hosts created |
+| instance_type | The instance type configured for the dedicated hosts |
+
+## Development
+
+Format code:
+```bash
+terraform fmt -recursive
+```
+
+Validate configuration:
+```bash
+terraform validate
+```
+
+Run linting:
+```bash
+tflint
+```
+
+## Testing
+
+The module includes automated testing with GitHub Actions. See [.github/workflows/terraform-ci.yml](.github/workflows/terraform-ci.yml) for CI configuration.
+
+## Usage Examples
 
 ### Basic Example
 
@@ -89,34 +156,6 @@ module "dedicated_hosts" {
 | Name | Version |
 |------|---------|
 | aws | >= 5.0.0 |
-
-## Inputs
-
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| host_count | Number of dedicated hosts to create | `number` | `1` | no |
-| availability_zone | The availability zone to launch the dedicated host in | `string` | n/a | yes |
-| instance_type | The instance type to use for the dedicated host | `string` | `"c5.large"` | no |
-| instance_family | Instance family to use (mutually exclusive with instance_type) | `string` | `null` | no |
-| auto_placement | Whether to enable auto placement ('on' or 'off') | `string` | `"on"` | no |
-| host_recovery | Whether to enable host recovery ('on' or 'off') | `string` | `"on"` | no |
-| outpost_arn | The ARN of the AWS Outpost | `string` | `null` | no |
-| asset_id | The ID of the Outpost hardware asset | `string` | `null` | no |
-| environment | Environment name for tagging | `string` | `"production"` | no |
-| project | Project name for tagging | `string` | `""` | no |
-| owner | Owner of the resources for tagging | `string` | `""` | no |
-| additional_tags | Additional tags to apply | `map(string)` | `{}` | no |
-
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| dedicated_host_ids | The IDs of the AWS Dedicated Hosts |
-| dedicated_host_arns | The ARNs of the AWS Dedicated Hosts |
-| dedicated_host_availability_zones | The availability zones of the Dedicated Hosts |
-| dedicated_host_owner_ids | The AWS account IDs of the Dedicated Host owners |
-| host_count | The number of dedicated hosts created |
-| instance_type | The instance type configured for the dedicated hosts |
 
 ## License
 
